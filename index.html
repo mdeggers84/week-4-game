@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>GoT RPG</title>
+
+	<script type="text/javascript" src="assets/javascript/game.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+<body>
+	
+	<!-- header -->
+	<h1 class="page-header text-center" id="game-title">Game of Thrones Battle</h1>
+
+
+	<!-- content -->
+	<div class="container" id="content">
+
+		<!-- characters -->
+		<div class="row" id="heroes">
+
+			<h2 class="page-header">Choose your Hero</h2>
+
+			<div class="col-xs-2 char" id="char-1" value="char1">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2 char" id="char-2" value="char2">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2 char" id="char-3" value="char3">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2 char" id="char-4" value="char4">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2" id="hero-status">
+				<!-- hero status updates -->
+				<p>Health: <span id="hero-health"></span></p>
+			</div>
+
+		</div>
+		<!-- end characters -->
+
+		<!-- enemies -->
+		<div class="row" id="enemies">
+			
+			<h2 class="page-header">Enemies</h2>
+
+			<div class="col-xs-2 char enemy" id="enemy-1" value="enemy1">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2 char enemy" id="enemy-2" value="enemy2">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+			<div class="col-xs-2 char enemy" id="enemy-3" value="enemy3">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+			
+		</div>
+		<!-- end enemies -->
+
+		<!-- attack -->
+		<div class="row" id="attack">
+
+			<h2 class="page-header">Attack</h2>
+			
+			<div class="col-xs-2">
+				<button class="btn btn-default">Attack</button>
+			</div>
+
+		</div>
+		<!-- end attack -->
+
+		<!-- defense -->
+		<div class="row" id="defender">
+
+			<h2 class="page-header">Defender</h2>
+
+			<div class="col-xs-2 char defender" id="defender-1" value="defender">
+				<div class="char-name"></div>
+				<div class="char-img"></div>
+				<div class="char-status"></div>
+			</div>
+
+		</div>
+		<!-- end defense -->
+
+	</div>	
+	<!-- end content -->
+
+</body>
+</html>
