@@ -12,25 +12,10 @@ body {
   color: #fff;
 }
 
-h1 {
-	/*font-size: 48px;*/
-}
-
-progress {
-	height: 4em;
-}
-
 h2.page-header {
-	text-align: left;
 	margin-top: 10px;
-	/*font-size: 38px;*/
+	text-align: left;
 	font-weight: bolder;
-}
-
-.char {
-	/*margin: 5px;*/
-/*	height: 150px;
-	width: 150px;*/
 }
 
 .thumbnail {
@@ -38,46 +23,20 @@ h2.page-header {
 	font-size: 12px;
 }
 
-.char img {
-	height: 125px;
-	width: 125px;
-/*	border: 0;
-	border: 20px solid #999;*/
-}
-
-.char-name {
-	/*position: absolute;*/
-	left: 38%;
-	/*text-align: center;*/
-	/*margin-bottom: 4px;*/
-	font-weight: bold;
-}
-
-.char-status {
-	/*position: absolute;*/
-	/*text-align: center;*/
-	margin-top: 4px;
-	font-weight: bold;
-}
-
-.enemy {
+#hero, #defender {
 	display: none;
 }
 
-.defender {
+#attack, #status, #replay, #next-round {
 	display: none;
 }
 
-.hero .thumbnail {
+.thumbnail.hero {
 	background: green;
 }
 
-.enemy .thumbnail {
+.thumbnail.defender {
 	background: red;
-}
-
-.defender .thumbnail {
-	background: purple;
 }
 
 #hero-status {

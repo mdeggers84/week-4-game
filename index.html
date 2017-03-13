@@ -23,11 +23,11 @@
 	<div class="container text-center" id="content">
 
 		<!-- characters -->
-		<div class="row" id="heroes">
+		<div class="row" id="chars">
 
-			<h2 class="page-header">Choose your Hero</h2>
+			<h2 class="page-header" id="directions">Choose your Hero</h2>
 
-			<div class="col-xs-2 char" id="char-1" value="char1">
+			<div class="col-xs-2 char char-select" id="char-1" value="char1">
 				<div class="thumbnail">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
@@ -35,7 +35,7 @@
 				</div>
 			</div>
 
-			<div class="col-xs-2 char" id="char-2" value="char2">
+			<div class="col-xs-2 char char-select" id="char-2" value="char2">
 				<div class="thumbnail">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
@@ -43,7 +43,7 @@
 				</div>
 			</div>
 
-			<div class="col-xs-2 char" id="char-3" value="char3">
+			<div class="col-xs-2 char char-select" id="char-3" value="char3">
 				<div class="thumbnail">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
@@ -51,29 +51,80 @@
 				</div>
 			</div>
 
-			<div class="col-xs-2 char" id="char-4" value="char4">
+			<div class="col-xs-2 char char-select" id="char-4" value="char4">
 				<div class="thumbnail">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
 					<div class="char-status"></div>
 				</div>
-			</div>
-
-			<div class="col-xs-2" id="hero-status">
-				<!-- hero status updates -->
-				<div class="progress">
-					<div class="progress-bar" id="hero-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-						<span class="sr-only"></span>
-					</div>
-				</div>
-				<!-- <progress value="" max="" id="hero-hp"></progress> -->
 			</div>
 
 		</div>
 		<!-- end characters -->
 
+		<!-- Arena -->
+		<div class="row" id="arena">
+
+			<h2 class="page-header">Arena</h2>
+
+			<div class="col-xs-2 char char-arena" id="hero">
+				<div class="thumbnail hero">
+					<div class="char-name"></div>
+					<div class="char-img"></div>
+					<div class="char-status"></div>
+				</div>
+				<div class="progress">
+					<div class="progress-bar" id="hero-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+						<span class="sr-only"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-2 char char-arena" id="defender">
+				<div class="thumbnail defender">
+					<div class="char-name"></div>
+					<div class="char-img"></div>
+					<div class="char-status"></div>
+				</div>
+				<div class="progress">
+					<div class="progress-bar" id="defender-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+						<span class="sr-only"></span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<!-- end Arena -->
+		
+		<!-- status -->
+		<div class="row text-left">	
+			<div class="col-xs-2" id="attack">
+				<button class="btn btn-primary">Attack</button>
+			</div>
+
+			<div class="col-xs-2" id="replay">
+				<button class="btn btn-info">Replay</button>
+			</div>
+
+			<div class="col-xs-2" id="next-round">
+				<button class="btn btn-info">Next Round</button>
+			</div>
+
+			<div class="col-xs-6" id="status">
+				<p id="hero-attack"></p>
+				<p id="defender-attack"></p>
+				<p id="game-status"></p>
+			</div>
+		</div>
+		<!-- end status -->
+
+
+
+
+
+
 		<!-- enemies -->
-		<div class="row" id="enemies">
+		<!-- <div class="row" id="enemies">
 			
 			<h2 class="page-header">Enemies</h2>
 
@@ -101,11 +152,11 @@
 				</div>
 			</div>
 			
-		</div>
+		</div> -->
 		<!-- end enemies -->
 
 		<!-- attack -->
-		<div class="row" id="attack">
+		<!-- <div class="row" id="attack">
 
 			<h2 class="page-header">Attack</h2>
 			
@@ -113,11 +164,11 @@
 				<button class="btn btn-default">Attack</button>
 			</div>
 
-		</div>
+		</div> -->
 		<!-- end attack -->
 
 		<!-- defense -->
-		<div class="row" id="defender">
+		<!-- <div class="row" id="defender">
 
 			<h2 class="page-header">Defender</h2>
 
@@ -130,16 +181,14 @@
 			</div>
 
 			<div class="col-xs-2" id="defender-status">
-				<!-- hero status updates -->
 				<div class="progress">
 					<div class="progress-bar" id="defender-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
 						<span class="sr-only"></span>
 					</div>
 				</div>
-				<!-- <progress value="" max="" id="defender-hp"></progress> -->
 			</div>
 
-		</div>
+		</div> -->
 		<!-- end defense -->
 
 	</div>	
