@@ -9,6 +9,7 @@ $(document).ready(function() {
 				value: "char1",
 				img: '<img src="assets/images/jon-snow.jpg" alt="Jon Snow">',
 				hp: 100,
+				maxHP: 100,
 				ap: 10,
 				cap: 10,
 				hero: false,
@@ -20,6 +21,7 @@ $(document).ready(function() {
 				value: "char2",
 				img: '<img src="assets/images/arya-stark.jpg" alt="Arya">',
 				hp: 80,
+				maxHP: 80,
 				ap: 20,
 				cap: 30,
 				hero: false,
@@ -31,6 +33,7 @@ $(document).ready(function() {
 				value: "char3",
 				img: '<img src="assets/images/sandor-clegane.jpg" alt="Sandor Clegane">',
 				hp: 120,
+				maxHP: 120,
 				ap: 30,
 				cap: 10,
 				hero: false,
@@ -42,6 +45,7 @@ $(document).ready(function() {
 				value: "char4",
 				img: '<img src="assets/images/white-walker.jpg" alt="White Walker">',
 				hp: 5,
+				maxHP: 5,
 				ap: 0,
 				cap: 15,
 				hero: false,
@@ -54,66 +58,96 @@ $(document).ready(function() {
 		var defender;
 		var gameReady = false;
 
-		function setHeroes() {
-			$("#char-1 .char-img").html(charObj.char1.img);
-			$("#char-2 .char-img").html(charObj.char2.img);
-			$("#char-3 .char-img").html(charObj.char3.img);
-			$("#char-4 .char-img").html(charObj.char4.img);
+		function setBoard() {
+			for (var i = 1; i <= 4; i++ ) {
+				setChar("#char-" + i, charObj["char" + i]);
+			}
+		}
+
+		function setChar(sel, obj) {
+			$(sel + " .char-name").html(obj.name);
+			$(sel + " .char-img").html(obj.img);
+			$(sel + " .char-status").html("health: " + obj.hp);
 		}
 
 		function chooseHero() {
-			var char;
+			var obj;
 
 			$("#heroes .char").on("click", function() {
 				$("#heroes .char").off("click");
-				char = charObj[($(this).attr("value"))];
-				hero = char;
-				char.hero = true;
-				$("#char-1").html(char.img).addClass("hero");
+				obj = charObj[($(this).attr("value"))];
+				hero = obj;
+				obj.hero = true;
+
+				$("#char-1 .char-img").html(obj.img);
+				$("#char-1").addClass("hero");
 				$("#char-2, #char-3, #char-4").hide();
-				$("#hero-status").show();
-				$("#hero-health").html(hero.hp);
+
 				setEnemies();
 			});
 		}
 
 		function setEnemies() {
 			var j = 1;
-			var char;
-			
+			var obj;
+
 			for (var i = 1; i <= 4; i++) {
-				char = charObj["char" + i];
-				if (char.hero === false) {
-					$("#enemy-" + j + " .char-img").html(char.img).attr("value", char.value);
+				obj = charObj["char" + i];
+
+				if (obj.hero === false) {
+					setChar("#enemy-" + j, obj);
+					$("#enemy-" +j).attr("value", "char" + i).show();
 					j++;
 				}
+
 			}
 		}
 
 		function chooseDefender() {
-			var char;
+			var obj;
 
 			$(".enemy").on("click", function() {
 				$(".enemy").off("click");
-				char = getCharObj(charObj[($(this).attr("value"))]);
-				console.log(this);
-				defender = char;
+				obj = charObj[($(this).attr("value"))];
+				defender = obj;
 				($(this)).hide();
-				$("#defender-1 .char-img").html(char.img);
+				setChar("#defender-1", obj);
+				$("#defender-1").show().addClass("defender");
+				$("#defender-status").show();
+				showHealth();
 				gameReady = true;
 			});
 		}
 
-		function getCharObj(val) {
-			
+		function showHealth() {
+			$("#hero-status").show();
+			$("#hero-hp").attr("aria-valuenow", hero.hp).attr("aria-valuemax", hero.hp);
+
+			$("#defender-status").show();
+			$("#defender-hp").attr("aria-valuenow", defender.hp).attr("aria-valuemax", defender.hp);
 		}
 
+		function healthPercent(a, b) {
+			return (a / b) * 100;
+		}
+
+		// fix this
 		function attack() {
+			var percent;
+
 			defender.hp = defender.hp - hero.ap;
-			$("#defender-health").html(defender.hp);
+			percent = healthPercent(defender.hp, defender.maxHP);
+
+			$("#defender-1 .char-status").html(defender.hp);
+			$("#defender-hp").attr("style", "width: " + percent + "%;");
+
 			if (defender.hp > 0) {
 				hero.hp = hero.hp - defender.cap;
-				$("#hero-health").html(hero.hp);
+				percent = healthPercent(hero.hp, hero.maxHP);
+
+				$("#char-1 .char-status").html(hero.hp);
+				$("#hero-hp").attr("style", "width: " + percent + "%;");
+
 				if (hero.hp > 0) {
 					hero.ap += hero.ap;
 				} else {
@@ -133,14 +167,14 @@ $(document).ready(function() {
 		}
 
 		// start function calls
-		setHeroes();
+		setBoard();
 		chooseHero();
 		chooseDefender();
 
 		$("#attack").on("click", function() {
 			if (gameReady) {
 				attack();
-				updateStatus();
+				// updateStatus();
 				if (hero.hp <= 0) {
 					heroDeath();
 				} else if (defender.hp <= 0) {

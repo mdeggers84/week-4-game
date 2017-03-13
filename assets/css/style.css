@@ -9,42 +9,75 @@ body {
   background-repeat:no-repeat;
   overflow-x: hidden;
   font-family: 'MedievalSharp', cursive;
+  color: #fff;
 }
 
 h1 {
-	font-size: 48px;
+	/*font-size: 48px;*/
+}
+
+progress {
+	height: 4em;
 }
 
 h2.page-header {
+	text-align: left;
 	margin-top: 10px;
-	font-size: 38px;
+	/*font-size: 38px;*/
 	font-weight: bolder;
-	color: white;
 }
 
-p {
-	font-size: 32px;
-	color: white;
+.char {
+	/*margin: 5px;*/
+/*	height: 150px;
+	width: 150px;*/
+}
+
+.thumbnail {
+	background: #999;
+	font-size: 12px;
 }
 
 .char img {
-	background: #fff;
-	height: 100px;
-	width: 100px;
-	margin: 5px;
-	border: 4px solid #999;
+	height: 125px;
+	width: 125px;
+/*	border: 0;
+	border: 20px solid #999;*/
 }
 
-.char.hero img {
-	border-color: green;
+.char-name {
+	/*position: absolute;*/
+	left: 38%;
+	/*text-align: center;*/
+	/*margin-bottom: 4px;*/
+	font-weight: bold;
 }
 
-.char.enemy img {
-	border-color: red;
+.char-status {
+	/*position: absolute;*/
+	/*text-align: center;*/
+	margin-top: 4px;
+	font-weight: bold;
 }
 
-.char.defender img {
-	border-color: purple;
+.enemy {
+	display: none;
+}
+
+.defender {
+	display: none;
+}
+
+.hero .thumbnail {
+	background: green;
+}
+
+.enemy .thumbnail {
+	background: red;
+}
+
+.defender .thumbnail {
+	background: purple;
 }
 
 #hero-status {
