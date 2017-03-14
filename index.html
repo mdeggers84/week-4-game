@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
 <head>
 	<meta charset="utf-8">
 	<title>GoT RPG</title>
@@ -24,6 +24,7 @@
 
 		<!-- characters -->
 		<div class="row">
+
 			<div class="col-xs-10">
 				<div class="row" id="chars">
 					<h2 class="page-header" id="directions">Choose your Hero</h2>
@@ -59,14 +60,17 @@
 							<div class="char-status"></div>
 						</div>
 					</div>
+
 				</div>
 			</div>
+			<!-- scoreboard -->
 			<div class="col-xs-2 text-left" id="scoreboard">
 				<div class="well">
 					<p id="wins">Wins: 0</p>
 					<p id="losses">Losses: 0</p>
 				</div>
 			</div>
+			<!-- end scoreboard -->
 		</div>
 		<!-- end characters -->
 
@@ -74,13 +78,14 @@
 		<div class="row" id="arena">
 
 			<h2 class="page-header">Arena</h2>
-
+			<!-- hero div -->
 			<div class="col-xs-2 char char-arena" id="hero">
 				<div class="thumbnail hero">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
 					<div class="char-status"></div>
 				</div>
+				<!-- hero health bar -->
 				<div class="progress">
 					<div class="progress-bar" id="hero-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
 						<span class="sr-only"></span>
@@ -88,12 +93,14 @@
 				</div>
 			</div>
 
+			<!-- defender div -->
 			<div class="col-xs-2 char char-arena" id="defender">
 				<div class="thumbnail defender">
 					<div class="char-name"></div>
 					<div class="char-img"></div>
 					<div class="char-status"></div>
 				</div>
+				<!-- defender health bar -->
 				<div class="progress">
 					<div class="progress-bar" id="defender-hp" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
 						<span class="sr-only"></span>
@@ -101,8 +108,9 @@
 				</div>
 			</div>
 
+			<!-- status section -->
 			<div class="col-xs-8">
-				<!-- status -->
+
 				<div class="row text-left">
 					<div class="col-xs-8 well" id="status">
 						<p id="hero-attack"></p>
@@ -110,6 +118,8 @@
 						<p id="game-status"></p>
 					</div>
 				</div>
+
+				<!-- buttons - only one visible at a time -->
 				<div class="row text-left">	
 					<div class="col-xs-2" id="attack">
 						<button class="btn btn-primary">Attack</button>
@@ -123,13 +133,13 @@
 						<button class="btn btn-info">Next Round</button>
 					</div>
 				</div>
-				
-				<!-- end status -->
+
 			</div>
 			
 		</div>
 		<!-- end Arena -->
 		
+		<!-- audio div for theme song / sound effects -->
 		<div id="audio">
 			<audio loop id="theme-song" src="https://c6.rbxcdn.com/3a8d2319e33b05afe7337c00b488742b"></audio>
 			<audio id="sword-slash" src="https://c3.rbxcdn.com/b84a8956f455a3d539de64807036710e"></audio>

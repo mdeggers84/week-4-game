@@ -54,6 +54,7 @@ $(document).ready(function() {
 			}
 		};
 
+		// global variables
 		var hero;
 		var defender;
 		var wins = 0;
@@ -65,41 +66,14 @@ $(document).ready(function() {
 		var themeSong = document.getElementById("theme-song");
 		var swordSlash = document.getElementById("sword-slash");
 
+		// sets up character selection row
 		function setBoard() {
 			for (var i = 1; i <= 4; i++ ) {
 				setChar("#char-" + i, charObj["char" + i]);
 			}
 		}
 
-		function resetBoard() {
-			defeatedEnemies = 0;
-			heroSelected = false;
-			defenderSelected = false;
-			gameReady = false;
-
-			hero.ap = hero.baseAP;
-
-			$("#hero-attack, #defender-attack").empty();
-			$("#game-status").empty();
-			$("#hero-hp, #defender-hp").attr("style", "width: 100%;");
-
-			$(".char-select").show();
-			$("#replay, #status, .char-arena").hide();
-
-			setBoard();
-		}
-
-		function nextRound() {
-			defenderSelected = false;
-			gameReady = false;
-
-			$("#hero-attack, #defender-attack").empty();
-			$("#game-status").empty();
-			$("#defender, #next-round, #status").hide();
-			$("#directions").html("Choose your next opponent");
-
-		}
-
+		// works with setBoard and other functions to prevent some duplicate code
 		function setChar(sel, obj) {
 			obj.hp = obj.maxHP;
 			$(sel + " .char-name").html(obj.name);
@@ -107,6 +81,7 @@ $(document).ready(function() {
 			$(sel + " .char-status").html("health: " + obj.hp);
 		}
 
+		// once a hero and defender are selected, displays their health bars in Arena div
 		function showHealth() {
 			$("#hero-status").show();
 			$("#hero-hp").attr("aria-valuenow", hero.hp).attr("aria-valuemax", hero.hp);
@@ -115,10 +90,7 @@ $(document).ready(function() {
 			$("#defender-hp").attr("aria-valuenow", defender.hp).attr("aria-valuemax", defender.hp);
 		}
 
-		function healthPercent(a, b) {
-			return (a / b) * 100;
-		}
-
+		// executed when attack button is clicked - adjusts health, hero ap, and health bar percentage
 		function attack() {
 			var percent;
 
@@ -142,6 +114,12 @@ $(document).ready(function() {
 			hero.ap += hero.baseAP;
 		}
 
+		// finds percentage for health bar
+		function healthPercent(a, b) {
+			return (a / b) * 100;
+		}
+
+		// executed when player loses - calls reset / tracks losses
 		function heroDeath() {
 			losses++;
 
@@ -154,6 +132,7 @@ $(document).ready(function() {
 			$("#losses").html("Losses: " + losses);
 		}
 
+		// executed on defender death - if all are dead, resets game. could be made more dynamic in case of additional opponents
 		function defenderDeath() {
 			defeatedEnemies ++;
 
@@ -177,11 +156,44 @@ $(document).ready(function() {
 			
 		}
 
+		// called when either hero or all opponents are defeated via replay button
+		function resetBoard() {
+			defeatedEnemies = 0;
+			heroSelected = false;
+			defenderSelected = false;
+			gameReady = false;
+
+			hero.ap = hero.baseAP;
+
+			$("#hero-attack, #defender-attack").empty();
+			$("#game-status").empty();
+			$("#hero-hp, #defender-hp").attr("style", "width: 100%;");
+
+			$(".char-select").show();
+			$("#replay, #status, .char-arena").hide();
+
+			setBoard();
+		}
+
+		// called via next-round button when an opponent is defeated, but more remain
+		function nextRound() {
+			defenderSelected = false;
+			gameReady = false;
+
+			$("#hero-attack, #defender-attack").empty();
+			$("#game-status").empty();
+			$("#defender, #next-round, #status").hide();
+			$("#directions").html("Choose your next opponent");
+
+		}
+
 		// start function calls
 		setBoard();
 		themeSong.play();
 
+		// click events for selecting hero and current defender
 		$("#chars .char").on("click", function () {
+			// prevents hero selection if one has already been chosen
 			if (heroSelected === false) {
 
 				heroSelected = true;
@@ -189,12 +201,13 @@ $(document).ready(function() {
 				hero = obj;
 				obj.hero = true;
 
-				$($(this)).hide();
+				$($(this)).hide(); // Hides selected div as the hero div is populated, simulating movement
 				$("#hero").show();
 				setChar("#hero", obj);
 
 				$("#directions").html("Choose your opponent");
 
+				// verifies hero has been chosen and defender has not
 			} else if (heroSelected === true && defenderSelected === false) {
 
 				defenderSelected = true;
@@ -212,11 +225,12 @@ $(document).ready(function() {
 				setChar("#defender", obj);
 				showHealth();
 
-				gameReady = true;
+				gameReady = true; // flags that both a hero and defender have been selected, enabling the attack phase
 
 			}
 		});
 
+		// calls attack function on click an monitors character health for win/lose states
 		$("#attack").on("click", function() {
 			if (gameReady) {
 				swordSlash.play();
@@ -229,10 +243,12 @@ $(document).ready(function() {
 			}
 		});
 
+		// full reset when game is either won or lost
 		$("#replay").on("click", function() {
 			resetBoard();
 		});
 
+		// partial reset that allows selecting next opponent
 		$("#next-round").on("click", function() {
 			nextRound();
 		});
