@@ -252,6 +252,14 @@ $(document).ready(function() {
 		$("#next-round").on("click", function() {
 			nextRound();
 		});
+
+		$("#scoreboard").hover(function() {
+			$("#wins, #losses").hide();
+			$("#sloth").show();
+		}, function() {
+			$("#wins, #losses").show();
+			$("#sloth").hide();
+		});
 	}
 	// end game function
 

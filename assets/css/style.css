@@ -58,6 +58,6 @@ h2.page-header {
 	padding: 20px 0px;
 }
 
-#content {
-
+#sloth {
+	display: none;
 }
