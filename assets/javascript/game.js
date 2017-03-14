@@ -11,9 +11,9 @@ $(document).ready(function() {
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
 				hp: 100,
 				maxHP: 100,
-				ap: 10,
-				baseAP: 10,
-				cap: 10,
+				ap: 12,
+				baseAP: 12,
+				cap: 5,
 				hero: false
 			},
 			char2: {
@@ -23,9 +23,9 @@ $(document).ready(function() {
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
 				hp: 80,
 				maxHP: 80,
-				ap: 20,
-				baseAP: 20,
-				cap: 30,
+				ap: 15,
+				baseAP: 15,
+				cap: 20,
 				hero: false
 			},
 			char3: {
@@ -35,9 +35,9 @@ $(document).ready(function() {
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
 				hp: 120,
 				maxHP: 120,
-				ap: 30,
-				baseAP: 30,
-				cap: 10,
+				ap: 18,
+				baseAP: 18,
+				cap: 15,
 				hero: false
 			},
 			char4: {
@@ -45,11 +45,11 @@ $(document).ready(function() {
 				value: "char4",
 				img: '<img src="assets/images/white-walker.jpg" class="img-thumbnail" alt="White Walker">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 5,
-				maxHP: 5,
-				ap: 0,
-				baseAP: 0,
-				cap: 15,
+				hp: 80,
+				maxHP: 80,
+				ap: 5,
+				baseAP: 5,
+				cap: 40,
 				hero: false
 			}
 		};
@@ -57,15 +57,14 @@ $(document).ready(function() {
 		// global variables
 		var hero;
 		var defender;
+		var interval;
 		var wins = 0;
 		var losses = 0;
 		var defeatedEnemies = 0;
 		var heroSelected = false;
 		var defenderSelected = false;
 		var gameReady = false;
-		var themeSong = document.getElementById("theme-song");
-		var swordSlash = document.getElementById("sword-slash");
-
+		
 		// sets up character selection row
 		function setBoard() {
 			for (var i = 1; i <= 4; i++ ) {
@@ -122,8 +121,9 @@ $(document).ready(function() {
 		// executed when player loses - calls reset / tracks losses
 		function heroDeath() {
 			losses++;
+			$("#theme-song").animate({volume: 0}, 2000);
 
-			$("#attack").hide();
+			$("#attack-btn").attr("disabled", true);
 			$("#replay").show();
 
 			$("#hero .char-img").html(hero.imgLose);
@@ -138,7 +138,8 @@ $(document).ready(function() {
 
 			if (defeatedEnemies === 3) {
 				wins++;
-				$("#attack").hide();
+				$("#theme-song").animate({volume: 0}, 2000);
+				$("#attack-btn").attr("disabled", true);
 				$("#replay").show();
 
 				$("#defender .char-img").html(hero.imgLose);
@@ -146,7 +147,7 @@ $(document).ready(function() {
 				$("#directions").html("You Won the Game!");
 				$("#wins").html("Wins: " + wins);
 			} else {
-				$("#attack").hide();
+				$("#attack-btn").attr("disabled", true);
 				$("#next-round").show();
 
 				$("#defender .char-img").html(defender.imgLose);
@@ -170,7 +171,7 @@ $(document).ready(function() {
 			$("#hero-hp, #defender-hp").attr("style", "width: 100%;");
 
 			$(".char-select").show();
-			$("#replay, #status, .char-arena").hide();
+			$("#replay, #attack, #status, .char-arena").hide();
 
 			setBoard();
 		}
@@ -182,7 +183,7 @@ $(document).ready(function() {
 
 			$("#hero-attack, #defender-attack").empty();
 			$("#game-status").empty();
-			$("#defender, #next-round, #status").hide();
+			$("#defender, #next-round, #status, #attack").hide();
 			$("#directions").html("Choose your next opponent");
 
 		}
@@ -199,7 +200,9 @@ $(document).ready(function() {
 				obj = charObj[($(this).attr("value"))];
 				hero = obj;
 				obj.hero = true;
-				themeSong.play();
+				
+				$("#theme-song").prop("currentTime", 0).prop("volume", 1);
+				$("#theme-song")[0].play();
 
 				$($(this)).hide(); // Hides selected div as the hero div is populated, simulating movement
 				$("#hero").show();
@@ -217,6 +220,7 @@ $(document).ready(function() {
 				($(this)).hide();
 				$("#defender").show();
 				$("#attack").show();
+				$("#attack-btn").attr("disabled", false);
 				$("#status").show();
 
 				$("#defender-hp").attr("style", "width: 100%;");
@@ -233,7 +237,7 @@ $(document).ready(function() {
 		// calls attack function on click an monitors character health for win/lose states
 		$("#attack").on("click", function() {
 			if (gameReady) {
-				swordSlash.play();
+				$("#sword-slash")[0].play();
 				attack();
 				if (hero.hp <= 0) {
 					heroDeath();
