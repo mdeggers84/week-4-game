@@ -18,6 +18,10 @@ h2.page-header {
 	font-weight: bolder;
 }
 
+.well {
+	background: #4C4C4C;
+}
+
 .thumbnail {
 	background: #999;
 	font-size: 12px;

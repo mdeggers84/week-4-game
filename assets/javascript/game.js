@@ -12,10 +12,9 @@ $(document).ready(function() {
 				hp: 100,
 				maxHP: 100,
 				ap: 10,
+				baseAP: 10,
 				cap: 10,
-				hero: false,
-				enemy: "",
-				dead: false
+				hero: false
 			},
 			char2: {
 				name: "Arya Stark",
@@ -25,10 +24,9 @@ $(document).ready(function() {
 				hp: 80,
 				maxHP: 80,
 				ap: 20,
+				baseAP: 20,
 				cap: 30,
-				hero: false,
-				enemy: "",
-				dead: false
+				hero: false
 			},
 			char3: {
 				name: "Sandor Clegane",
@@ -38,10 +36,9 @@ $(document).ready(function() {
 				hp: 120,
 				maxHP: 120,
 				ap: 30,
+				baseAP: 30,
 				cap: 10,
-				hero: false,
-				enemy: "",
-				dead: false
+				hero: false
 			},
 			char4: {
 				name: "White Walker",
@@ -51,19 +48,22 @@ $(document).ready(function() {
 				hp: 5,
 				maxHP: 5,
 				ap: 0,
+				baseAP: 0,
 				cap: 15,
-				hero: false,
-				enemy: "",
-				dead: false
+				hero: false
 			}
 		};
 
 		var hero;
 		var defender;
+		var wins = 0;
+		var losses = 0;
 		var defeatedEnemies = 0;
 		var heroSelected = false;
 		var defenderSelected = false;
 		var gameReady = false;
+		var themeSong = document.getElementById("theme-song");
+		var swordSlash = document.getElementById("sword-slash");
 
 		function setBoard() {
 			for (var i = 1; i <= 4; i++ ) {
@@ -77,6 +77,9 @@ $(document).ready(function() {
 			defenderSelected = false;
 			gameReady = false;
 
+			hero.ap = hero.baseAP;
+
+			$("#hero-attack, #defender-attack").empty();
 			$("#game-status").empty();
 			$("#hero-hp, #defender-hp").attr("style", "width: 100%;");
 
@@ -90,6 +93,7 @@ $(document).ready(function() {
 			defenderSelected = false;
 			gameReady = false;
 
+			$("#hero-attack, #defender-attack").empty();
 			$("#game-status").empty();
 			$("#defender, #next-round, #status").hide();
 			$("#directions").html("Choose your next opponent");
@@ -134,39 +138,49 @@ $(document).ready(function() {
 
 				$("#hero .char-status").html("health: " + hero.hp);
 				$("#hero-hp").attr("style", "width: " + percent + "%;");
-
 			}
+			hero.ap += hero.baseAP;
 		}
 
 		function heroDeath() {
+			losses++;
+
 			$("#attack").hide();
 			$("#replay").show();
 
-			$("#hero-attack, #defender-attack").empty();
 			$("#hero .char-img").html(hero.imgLose);
 			$("#game-status").html("You lose!! - Please try again!");
+			$("#directions").html("You lose... :(");
+			$("#losses").html("Losses: " + losses);
 		}
 
 		function defenderDeath() {
 			defeatedEnemies ++;
 
 			if (defeatedEnemies === 3) {
-				alert("you win");
-				$("#hero .char-img").html(hero.imgLose);
+				wins++;
+				$("#attack").hide();
+				$("#replay").show();
+
+				$("#defender .char-img").html(hero.imgLose);
+				$("#game-status").html("Congratulations, you defeated all opponents!<br>Click to play again.");
+				$("#directions").html("You Won the Game!");
+				$("#wins").html("Wins: " + wins);
 			} else {
 				$("#attack").hide();
 				$("#next-round").show();
 
 				$("#defender .char-img").html(defender.imgLose);
-				$("#hero-attack, #defender-attack").empty();
 				$("#game-status").html("You defeated " + defender.name + "! - click to start the next round.");
+				$("#directions").html("You Won the Round!");
 			}
 			
 		}
 
 		// start function calls
 		setBoard();
-		
+		themeSong.play();
+
 		$("#chars .char").on("click", function () {
 			if (heroSelected === false) {
 
@@ -205,6 +219,7 @@ $(document).ready(function() {
 
 		$("#attack").on("click", function() {
 			if (gameReady) {
+				swordSlash.play();
 				attack();
 				if (hero.hp <= 0) {
 					heroDeath();
