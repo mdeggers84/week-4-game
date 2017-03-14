@@ -189,7 +189,6 @@ $(document).ready(function() {
 
 		// start function calls
 		setBoard();
-		themeSong.play();
 
 		// click events for selecting hero and current defender
 		$("#chars .char").on("click", function () {
@@ -200,6 +199,7 @@ $(document).ready(function() {
 				obj = charObj[($(this).attr("value"))];
 				hero = obj;
 				obj.hero = true;
+				themeSong.play();
 
 				$($(this)).hide(); // Hides selected div as the hero div is populated, simulating movement
 				$("#hero").show();
