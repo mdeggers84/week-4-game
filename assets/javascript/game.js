@@ -13,7 +13,7 @@ $(document).ready(function() {
 				maxHP: 100,
 				ap: 12,
 				baseAP: 12,
-				cap: 5,
+				cap: 10,
 				hero: false
 			},
 			char2: {
