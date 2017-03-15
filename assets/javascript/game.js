@@ -64,7 +64,7 @@ $(document).ready(function() {
 		// sets up character selection row
 		function setBoard() {
 			for (var i = 1; i <= 4; i++ ) {
-				setChar("#char-" + i, charObj["char" + i]);
+				setChar("#char" + i, charObj["char" + i]);
 			}
 		}
 
@@ -193,7 +193,7 @@ $(document).ready(function() {
 			if (heroSelected === false) {
 
 				heroSelected = true;
-				obj = charObj[($(this).attr("value"))];
+				obj = charObj[($(this).attr("id"))];
 				hero = obj;
 				
 				$("#theme-song").prop("currentTime", 0).prop("volume", 1);
@@ -209,7 +209,7 @@ $(document).ready(function() {
 			} else if (heroSelected === true && defenderSelected === false) {
 
 				defenderSelected = true;
-				obj = charObj[($(this).attr("value"))];
+				obj = charObj[($(this).attr("id"))];
 				defender = obj;
 
 				($(this)).hide();
