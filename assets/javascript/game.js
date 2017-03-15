@@ -9,48 +9,44 @@ $(document).ready(function() {
 				value: "char1",
 				img: '<img src="assets/images/jon-snow.jpg" class="img-thumbnail" alt="Jon Snow">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 100,
-				maxHP: 100,
-				ap: 12,
-				baseAP: 12,
-				cap: 10,
-				hero: false
+				hp: 50,
+				maxHP: 60,
+				ap: 10,
+				baseAP: 10,
+				cap: 10
 			},
 			char2: {
 				name: "Arya Stark",
 				value: "char2",
 				img: '<img src="assets/images/arya-stark.jpg" class="img-thumbnail" alt="Arya">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 80,
-				maxHP: 80,
-				ap: 15,
-				baseAP: 15,
-				cap: 20,
-				hero: false
+				hp: 40,
+				maxHP: 40,
+				ap: 12,
+				baseAP: 12,
+				cap: 20
 			},
 			char3: {
-				name: "Sandor Clegane",
+				name: "The Hound",
 				value: "char3",
 				img: '<img src="assets/images/sandor-clegane.jpg" class="img-thumbnail" alt="Sandor Clegane">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 120,
-				maxHP: 120,
-				ap: 18,
-				baseAP: 18,
-				cap: 15,
-				hero: false
+				hp: 60,
+				maxHP: 60,
+				ap: 8,
+				baseAP: 8,
+				cap: 16
 			},
 			char4: {
 				name: "White Walker",
 				value: "char4",
 				img: '<img src="assets/images/white-walker.jpg" class="img-thumbnail" alt="White Walker">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 80,
-				maxHP: 80,
-				ap: 5,
-				baseAP: 5,
-				cap: 40,
-				hero: false
+				hp: 70,
+				maxHP: 70,
+				ap: 6,
+				baseAP: 6,
+				cap: 18
 			}
 		};
 
@@ -199,7 +195,6 @@ $(document).ready(function() {
 				heroSelected = true;
 				obj = charObj[($(this).attr("value"))];
 				hero = obj;
-				obj.hero = true;
 				
 				$("#theme-song").prop("currentTime", 0).prop("volume", 1);
 				$("#theme-song")[0].play();
@@ -235,7 +230,7 @@ $(document).ready(function() {
 		});
 
 		// calls attack function on click an monitors character health for win/lose states
-		$("#attack").on("click", function() {
+		$("#attack-btn").on("click", function() {
 			if (gameReady) {
 				$("#sword-slash")[0].play();
 				attack();
@@ -248,12 +243,12 @@ $(document).ready(function() {
 		});
 
 		// full reset when game is either won or lost
-		$("#replay").on("click", function() {
+		$("#replay-btn").on("click", function() {
 			resetBoard();
 		});
 
 		// partial reset that allows selecting next opponent
-		$("#next-round").on("click", function() {
+		$("#next-round-btn").on("click", function() {
 			nextRound();
 		});
 
