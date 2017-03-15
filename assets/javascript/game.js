@@ -10,7 +10,7 @@ $(document).ready(function() {
 				img: '<img src="assets/images/jon-snow.jpg" class="img-thumbnail" alt="Jon Snow">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
 				hp: 50,
-				maxHP: 60,
+				maxHP: 50,
 				ap: 10,
 				baseAP: 10,
 				cap: 10
