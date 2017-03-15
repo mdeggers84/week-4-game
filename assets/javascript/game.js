@@ -76,7 +76,7 @@ $(document).ready(function() {
 			$(sel + " .char-status").html("health: " + obj.hp);
 		}
 
-		// once a hero and defender are selected, displays their health bars in Arena div
+		// once a hero and defender are selected, displays and sets healthbar values
 		function showHealth() {
 			$("#hero-status").show();
 			$("#hero-hp").attr("aria-valuenow", hero.hp).attr("aria-valuemax", hero.hp);
@@ -87,31 +87,36 @@ $(document).ready(function() {
 
 		// executed when attack button is clicked - adjusts health, hero ap, and health bar percentage
 		function attack() {
-			var percent;
 
 			defender.hp = defender.hp - hero.ap;
-			percent = healthPercent(defender.hp, defender.maxHP);
+			healthPercent(defender.hp, defender.maxHP, "#defender-hp");
 
 			$("#hero-attack").html("You hit " + defender.name + " for <strong>" + hero.ap + "</strong>.");
-
 			$("#defender .char-status").html("health: " + defender.hp);
-			$("#defender-hp").attr("style", "width: " + percent + "%;");
 
 			if (defender.hp > 0) {
 				hero.hp = hero.hp - defender.cap;
-				percent = healthPercent(hero.hp, hero.maxHP);
+				healthPercent(hero.hp, hero.maxHP, "#hero-hp");
 
 				$("#defender-attack").html(defender.name + " hit you for <strong>" + defender.cap + "</strong>.");
-
 				$("#hero .char-status").html("health: " + hero.hp);
-				$("#hero-hp").attr("style", "width: " + percent + "%;");
+
 			}
 			hero.ap += hero.baseAP;
 		}
 
 		// finds percentage for health bar
-		function healthPercent(a, b) {
-			return (a / b) * 100;
+		function healthPercent(a, b, sel) {
+			var percent = (a / b) * 100;
+			$(sel).attr("style", "width: " + percent + "%;");
+
+			// changes color when health drops below 50% and 25%
+			if (percent <= 25) {
+				$(sel).attr("class", "progress-bar progress-bar-danger");
+			} else if (percent <= 50) {
+				$(sel).attr("class", "progress-bar progress-bar-warning");
+			}
+
 		}
 
 		// executed when player loses - calls reset / tracks losses
@@ -164,7 +169,7 @@ $(document).ready(function() {
 
 			$("#hero-attack, #defender-attack").empty();
 			$("#game-status").empty();
-			$("#hero-hp, #defender-hp").attr("style", "width: 100%;");
+			$("#hero-hp, #defender-hp").attr("style", "width: 100%;").attr("class", "progress-bar progress-bar-success");
 
 			$(".char-select").show();
 			$("#replay, #attack, #status, .char-arena").hide();
@@ -218,7 +223,7 @@ $(document).ready(function() {
 				$("#attack-btn").attr("disabled", false);
 				$("#status").show();
 
-				$("#defender-hp").attr("style", "width: 100%;");
+				$("#defender-hp").attr("style", "width: 100%;").attr("class", "progress-bar progress-bar-success");
 				$("#directions").html("Fight!!");
 
 				setChar("#defender", obj);
@@ -252,6 +257,7 @@ $(document).ready(function() {
 			nextRound();
 		});
 
+		// :)
 		$("#scoreboard").hover(function() {
 			$("#wins, #losses").hide();
 			$("#sloth").show();

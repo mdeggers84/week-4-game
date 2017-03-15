@@ -28,28 +28,12 @@ h2.page-header {
 	font-size: 12px;
 }
 
-#hero, #defender {
-	display: none;
-}
-
-#attack, #status, #replay, #next-round {
-	display: none;
-}
-
 .thumbnail.hero {
 	background: green;
 }
 
 .thumbnail.defender {
 	background: red;
-}
-
-#hero-status {
-	display: none;
-}
-
-#defender-status {
-	display: none;
 }
 
 #game-title {
@@ -59,6 +43,8 @@ h2.page-header {
 	padding: 20px 0px;
 }
 
-#sloth {
+#attack, #status, 
+#replay, #next-round,
+#hero, #defender, #sloth {
 	display: none;
 }
