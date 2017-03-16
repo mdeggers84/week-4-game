@@ -9,44 +9,44 @@ $(document).ready(function() {
 				value: "char1",
 				img: '<img src="assets/images/jon-snow.jpg" class="img-thumbnail" alt="Jon Snow">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 50,
-				maxHP: 50,
-				ap: 10,
-				baseAP: 10,
-				cap: 10
+				hp: 100,
+				maxHP: 100,
+				ap: 20,
+				baseAP: 20,
+				cap: 30
 			},
 			char2: {
 				name: "Arya Stark",
 				value: "char2",
 				img: '<img src="assets/images/arya-stark.jpg" class="img-thumbnail" alt="Arya">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 40,
-				maxHP: 40,
-				ap: 12,
-				baseAP: 12,
-				cap: 20
+				hp: 80,
+				maxHP: 80,
+				ap: 25,
+				baseAP: 25,
+				cap: 40
 			},
 			char3: {
 				name: "The Hound",
 				value: "char3",
 				img: '<img src="assets/images/sandor-clegane.jpg" class="img-thumbnail" alt="Sandor Clegane">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 60,
-				maxHP: 60,
-				ap: 8,
-				baseAP: 8,
-				cap: 16
+				hp: 120,
+				maxHP: 120,
+				ap: 15,
+				baseAP: 15,
+				cap: 28
 			},
 			char4: {
 				name: "White Walker",
 				value: "char4",
 				img: '<img src="assets/images/white-walker.jpg" class="img-thumbnail" alt="White Walker">',
 				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 70,
-				maxHP: 70,
-				ap: 6,
-				baseAP: 6,
-				cap: 18
+				hp: 140,
+				maxHP: 140,
+				ap: 13,
+				baseAP: 13,
+				cap: 25
 			}
 		};
 

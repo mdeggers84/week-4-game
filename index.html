@@ -4,14 +4,18 @@
 	<meta charset="utf-8">
 	<title>GoT RPG</title>
 
+	<!-- jquery / local javascript -->
+	<script src="https://code.jquery.com/jquery-3.1.1.js" defer></script>
 	<script type="text/javascript" src="assets/javascript/game.js" defer></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 
+	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
 
+	<!-- bootstrap / local stylesheets -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
+	<!-- favicon links -->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -81,6 +85,7 @@
 		<div class="row" id="arena">
 
 			<h2 class="page-header">Arena</h2>
+
 			<!-- hero div -->
 			<div class="col-xs-2 char char-arena" id="hero">
 				<div class="thumbnail hero">
@@ -129,6 +134,7 @@
 					</div>
 				</div>
 
+				<!-- status block for displaying hero and defender attack values and game/round status -->
 				<div class="row text-left">
 					<div class="col-xs-8 well" id="status">
 						<p id="hero-attack"></p>
