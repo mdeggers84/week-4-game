@@ -237,6 +237,7 @@ $(document).ready(function() {
 		// calls attack function on click an monitors character health for win/lose states
 		$("#attack-btn").on("click", function() {
 			if (gameReady) {
+				$("#sword-slash").prop("currentTime", 0);
 				$("#sword-slash")[0].play();
 				attack();
 				if (hero.hp <= 0) {
