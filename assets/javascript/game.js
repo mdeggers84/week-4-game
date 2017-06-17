@@ -1,274 +1,268 @@
-$(document).ready(function() {
-	// game function
-	function game() {
+$(document).ready(function () {
+  // game function
+  function game() {
+    // character objects
+    var charObj = {
+      char1: {
+        name: 'Jon Snow',
+        value: 'char1',
+        img: '<img src="assets/images/jon-snow.jpg" class="img-thumbnail" alt="Jon Snow">',
+        imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
+        hp: 100,
+        maxHP: 100,
+        ap: 20,
+        baseAP: 20,
+        cap: 30
+      },
+      char2: {
+        name: 'Arya Stark',
+        value: 'char2',
+        img: '<img src="assets/images/arya-stark.jpg" class="img-thumbnail" alt="Arya">',
+        imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
+        hp: 80,
+        maxHP: 80,
+        ap: 25,
+        baseAP: 25,
+        cap: 40
+      },
+      char3: {
+        name: 'The Hound',
+        value: 'char3',
+        img: '<img src="assets/images/sandor-clegane.jpg" class="img-thumbnail" alt="Sandor Clegane">',
+        imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
+        hp: 120,
+        maxHP: 120,
+        ap: 15,
+        baseAP: 15,
+        cap: 28
+      },
+      char4: {
+        name: 'White Walker',
+        value: 'char4',
+        img: '<img src="assets/images/white-walker.jpg" class="img-thumbnail" alt="White Walker">',
+        imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
+        hp: 140,
+        maxHP: 140,
+        ap: 13,
+        baseAP: 13,
+        cap: 25
+      }
+    };
 
-		// character objects
-		var charObj = {
-			char1: {
-				name: "Jon Snow",
-				value: "char1",
-				img: '<img src="assets/images/jon-snow.jpg" class="img-thumbnail" alt="Jon Snow">',
-				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 100,
-				maxHP: 100,
-				ap: 20,
-				baseAP: 20,
-				cap: 30
-			},
-			char2: {
-				name: "Arya Stark",
-				value: "char2",
-				img: '<img src="assets/images/arya-stark.jpg" class="img-thumbnail" alt="Arya">',
-				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 80,
-				maxHP: 80,
-				ap: 25,
-				baseAP: 25,
-				cap: 40
-			},
-			char3: {
-				name: "The Hound",
-				value: "char3",
-				img: '<img src="assets/images/sandor-clegane.jpg" class="img-thumbnail" alt="Sandor Clegane">',
-				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 120,
-				maxHP: 120,
-				ap: 15,
-				baseAP: 15,
-				cap: 28
-			},
-			char4: {
-				name: "White Walker",
-				value: "char4",
-				img: '<img src="assets/images/white-walker.jpg" class="img-thumbnail" alt="White Walker">',
-				imgLose: '<img src="assets/images/skull.jpg" class="img-thumbnail" alt="skull">',
-				hp: 140,
-				maxHP: 140,
-				ap: 13,
-				baseAP: 13,
-				cap: 25
-			}
-		};
+    // global variables
+    var hero;
+    var defender;
+    var wins = 0;
+    var losses = 0;
+    var defeatedEnemies = 0;
+    var heroSelected = false;
+    var defenderSelected = false;
+    var gameReady = false;
 
-		// global variables
-		var hero;
-		var defender;
-		var interval;
-		var wins = 0;
-		var losses = 0;
-		var defeatedEnemies = 0;
-		var heroSelected = false;
-		var defenderSelected = false;
-		var gameReady = false;
-		
-		// sets up character selection row
-		function setBoard() {
-			for (var i = 1; i <= 4; i++ ) {
-				setChar("#char" + i, charObj["char" + i]);
-			}
-		}
+    // works with setBoard and other functions to prevent some duplicate code
+    function setChar(sel, obj) {
+      obj.hp = obj.maxHP;
+      $(sel + ' .char-name').html(obj.name);
+      $(sel + ' .char-img').html(obj.img);
+      $(sel + ' .char-status').html('health: ' + obj.hp);
+    }
 
-		// works with setBoard and other functions to prevent some duplicate code
-		function setChar(sel, obj) {
-			obj.hp = obj.maxHP;
-			$(sel + " .char-name").html(obj.name);
-			$(sel + " .char-img").html(obj.img);
-			$(sel + " .char-status").html("health: " + obj.hp);
-		}
+    // sets up character selection row
+    function setBoard() {
+      var i;
+      for (i = 1; i <= 4; i += 1) {
+        setChar('#char' + i, charObj['char' + i]);
+      }
+    }
 
-		// once a hero and defender are selected, displays and sets healthbar values
-		function showHealth() {
-			$("#hero-status").show();
-			$("#hero-hp").attr("aria-valuenow", hero.hp).attr("aria-valuemax", hero.hp);
+    // once a hero and defender are selected, displays and sets healthbar values
+    function showHealth() {
+      $('#hero-status').show();
+      $('#hero-hp').attr('aria-valuenow', hero.hp).attr('aria-valuemax', hero.hp);
 
-			$("#defender-status").show();
-			$("#defender-hp").attr("aria-valuenow", defender.hp).attr("aria-valuemax", defender.hp);
-		}
+      $('#defender-status').show();
+      $('#defender-hp').attr('aria-valuenow', defender.hp).attr('aria-valuemax', defender.hp);
+    }
 
-		// executed when attack button is clicked - adjusts health, hero ap, and health bar percentage
-		function attack() {
+    // finds percentage for health bar
+    function healthPercent(a, b, sel) {
+      var percent = (a / b) * 100;
+      $(sel).attr('style', 'width: ' + percent + '%;');
 
-			defender.hp = defender.hp - hero.ap;
-			healthPercent(defender.hp, defender.maxHP, "#defender-hp");
+      // changes color when health drops below 50% and 25%
+      if (percent <= 25) {
+        $(sel).attr('class', 'progress-bar progress-bar-danger');
+      } else if (percent <= 50) {
+        $(sel).attr('class', 'progress-bar progress-bar-warning');
+      }
+    }
 
-			$("#hero-attack").html("You hit " + defender.name + " for <strong>" + hero.ap + "</strong>.");
-			$("#defender .char-status").html("health: " + defender.hp);
+    // executed when attack button is clicked - adjusts health, hero ap, and health bar percentage
+    function attack() {
+      defender.hp -= hero.ap;
+      healthPercent(defender.hp, defender.maxHP, '#defender-hp');
 
-			if (defender.hp > 0) {
-				hero.hp = hero.hp - defender.cap;
-				healthPercent(hero.hp, hero.maxHP, "#hero-hp");
+      $('#hero-attack').html('You hit ' + defender.name + ' for <strong>' + hero.ap + '</strong>.');
+      $('#defender .char-status').html('health: ' + defender.hp);
 
-				$("#defender-attack").html(defender.name + " hit you for <strong>" + defender.cap + "</strong>.");
-				$("#hero .char-status").html("health: " + hero.hp);
+      if (defender.hp > 0) {
+        hero.hp -= defender.cap;
+        healthPercent(hero.hp, hero.maxHP, '#hero-hp');
 
-			}
-			hero.ap += hero.baseAP;
-		}
+        $('#defender-attack').html(defender.name + ' hit you for <strong>' + defender.cap + '</strong>.');
+        $('#hero .char-status').html('health: ' + hero.hp);
+      }
+      hero.ap += hero.baseAP;
+    }
 
-		// finds percentage for health bar
-		function healthPercent(a, b, sel) {
-			var percent = (a / b) * 100;
-			$(sel).attr("style", "width: " + percent + "%;");
+    // executed when player loses - calls reset / tracks losses
+    function heroDeath() {
+      losses += 1;
+      $('#theme-song').animate({ volume: 0 }, 2000);
 
-			// changes color when health drops below 50% and 25%
-			if (percent <= 25) {
-				$(sel).attr("class", "progress-bar progress-bar-danger");
-			} else if (percent <= 50) {
-				$(sel).attr("class", "progress-bar progress-bar-warning");
-			}
+      $('#attack-btn').attr('disabled', true);
+      $('#replay').show();
 
-		}
+      $('#hero .char-img').html(hero.imgLose);
+      $('#game-status').html('You lose!! - Please try again!');
+      $('#directions').html('You lose... :(');
+      $('#losses').html('Losses: ' + losses);
+    }
 
-		// executed when player loses - calls reset / tracks losses
-		function heroDeath() {
-			losses++;
-			$("#theme-song").animate({volume: 0}, 2000);
+    // executed on defender death - if all are dead, resets game.
+    // could be made more dynamic in case of additional opponents
+    function defenderDeath() {
+      defeatedEnemies += 1;
 
-			$("#attack-btn").attr("disabled", true);
-			$("#replay").show();
+      if (defeatedEnemies === 3) {
+        wins += 1;
+        $('#theme-song').animate({ volume: 0 }, 2000);
+        $('#attack-btn').attr('disabled', true);
+        $('#replay').show();
 
-			$("#hero .char-img").html(hero.imgLose);
-			$("#game-status").html("You lose!! - Please try again!");
-			$("#directions").html("You lose... :(");
-			$("#losses").html("Losses: " + losses);
-		}
+        $('#defender .char-img').html(hero.imgLose);
+        $('#game-status').html('Congratulations, you defeated all opponents!<br>Click to play again.');
+        $('#directions').html('You Won the Game!');
+        $('#wins').html('Wins: ' + wins);
+      } else {
+        $('#attack-btn').attr('disabled', true);
+        $('#next-round').show();
 
-		// executed on defender death - if all are dead, resets game. could be made more dynamic in case of additional opponents
-		function defenderDeath() {
-			defeatedEnemies ++;
+        $('#defender .char-img').html(defender.imgLose);
+        $('#game-status').html('You defeated ' + defender.name + '! - click to start the next round.');
+        $('#directions').html('You Won the Round!');
+      }
+    }
 
-			if (defeatedEnemies === 3) {
-				wins++;
-				$("#theme-song").animate({volume: 0}, 2000);
-				$("#attack-btn").attr("disabled", true);
-				$("#replay").show();
+    // called when either hero or all opponents are defeated via replay button
+    function resetBoard() {
+      defeatedEnemies = 0;
+      heroSelected = false;
+      defenderSelected = false;
+      gameReady = false;
 
-				$("#defender .char-img").html(hero.imgLose);
-				$("#game-status").html("Congratulations, you defeated all opponents!<br>Click to play again.");
-				$("#directions").html("You Won the Game!");
-				$("#wins").html("Wins: " + wins);
-			} else {
-				$("#attack-btn").attr("disabled", true);
-				$("#next-round").show();
+      hero.ap = hero.baseAP;
 
-				$("#defender .char-img").html(defender.imgLose);
-				$("#game-status").html("You defeated " + defender.name + "! - click to start the next round.");
-				$("#directions").html("You Won the Round!");
-			}
-			
-		}
+      $('#hero-attack, #defender-attack').empty();
+      $('#game-status').empty();
+      $('#hero-hp, #defender-hp').attr('style', 'width: 100%;').attr('class', 'progress-bar progress-bar-success');
 
-		// called when either hero or all opponents are defeated via replay button
-		function resetBoard() {
-			defeatedEnemies = 0;
-			heroSelected = false;
-			defenderSelected = false;
-			gameReady = false;
+      $('.char-select').show();
+      $('#replay, #attack, #status, .char-arena').hide();
 
-			hero.ap = hero.baseAP;
+      setBoard();
+    }
 
-			$("#hero-attack, #defender-attack").empty();
-			$("#game-status").empty();
-			$("#hero-hp, #defender-hp").attr("style", "width: 100%;").attr("class", "progress-bar progress-bar-success");
+    // called via next-round button when an opponent is defeated, but more remain
+    function nextRound() {
+      defenderSelected = false;
+      gameReady = false;
 
-			$(".char-select").show();
-			$("#replay, #attack, #status, .char-arena").hide();
+      $('#hero-attack, #defender-attack').empty();
+      $('#game-status').empty();
+      $('#defender, #next-round, #status, #attack').hide();
+      $('#directions').html('Choose your next opponent');
+    }
 
-			setBoard();
-		}
+    // start function calls
+    setBoard();
 
-		// called via next-round button when an opponent is defeated, but more remain
-		function nextRound() {
-			defenderSelected = false;
-			gameReady = false;
+    // click events for selecting hero and current defender
+    $('#chars .char').on('click', function () {
+      var obj;
+      // prevents hero selection if one has already been chosen
+      if (heroSelected === false) {
+        heroSelected = true;
+        obj = charObj[($(this).attr('id'))];
+        hero = obj;
 
-			$("#hero-attack, #defender-attack").empty();
-			$("#game-status").empty();
-			$("#defender, #next-round, #status, #attack").hide();
-			$("#directions").html("Choose your next opponent");
+        $('#theme-song').prop('currentTime', 0).prop('volume', 1);
+        $('#theme-song')[0].play();
 
-		}
+        $($(this)).hide(); // Hides selected div as the hero div is populated, simulating movement
+        $('#hero').show();
+        setChar('#hero', obj);
 
-		// start function calls
-		setBoard();
+        $('#directions').html('Choose your opponent');
 
-		// click events for selecting hero and current defender
-		$("#chars .char").on("click", function () {
-			// prevents hero selection if one has already been chosen
-			if (heroSelected === false) {
+      // verifies hero has been chosen and defender has not
+      } else if (heroSelected === true && defenderSelected === false) {
+        defenderSelected = true;
+        obj = charObj[($(this).attr('id'))];
+        defender = obj;
 
-				heroSelected = true;
-				obj = charObj[($(this).attr("id"))];
-				hero = obj;
-				
-				$("#theme-song").prop("currentTime", 0).prop("volume", 1);
-				$("#theme-song")[0].play();
+        ($(this)).hide();
+        $('#defender').show();
+        $('#attack').show();
+        $('#attack-btn').attr('disabled', false);
+        $('#status').show();
 
-				$($(this)).hide(); // Hides selected div as the hero div is populated, simulating movement
-				$("#hero").show();
-				setChar("#hero", obj);
+        $('#defender-hp').attr('style', 'width: 100%;').attr('class', 'progress-bar progress-bar-success');
+        $('#directions').html('Fight!!');
 
-				$("#directions").html("Choose your opponent");
+        setChar('#defender', obj);
+        showHealth();
 
-				// verifies hero has been chosen and defender has not
-			} else if (heroSelected === true && defenderSelected === false) {
+        // flags that both a hero and defender have been selected, enabling the attack phase
+        gameReady = true;
+      }
+    });
 
-				defenderSelected = true;
-				obj = charObj[($(this).attr("id"))];
-				defender = obj;
+    // calls attack function on click an monitors character health for win/lose states
+    $('#attack-btn').on('click', function () {
+      if (gameReady) {
+        $('#sword-slash').prop('currentTime', 0);
+        $('#sword-slash')[0].play();
+        attack();
+        if (hero.hp <= 0) {
+          heroDeath();
+        } else if (defender.hp <= 0) {
+          defenderDeath();
+        }
+      }
+    });
 
-				($(this)).hide();
-				$("#defender").show();
-				$("#attack").show();
-				$("#attack-btn").attr("disabled", false);
-				$("#status").show();
+    // full reset when game is either won or lost
+    $('#replay-btn').on('click', function () {
+      resetBoard();
+    });
 
-				$("#defender-hp").attr("style", "width: 100%;").attr("class", "progress-bar progress-bar-success");
-				$("#directions").html("Fight!!");
+    // partial reset that allows selecting next opponent
+    $('#next-round-btn').on('click', function () {
+      nextRound();
+    });
 
-				setChar("#defender", obj);
-				showHealth();
+    // :)
+    $('#scoreboard').hover(function () {
+      $('#wins, #losses').hide();
+      $('#sloth').show();
+    }, function () {
+      $('#wins, #losses').show();
+      $('#sloth').hide();
+    });
+  }
+  // end game function
 
-				gameReady = true; // flags that both a hero and defender have been selected, enabling the attack phase
-
-			}
-		});
-
-		// calls attack function on click an monitors character health for win/lose states
-		$("#attack-btn").on("click", function() {
-			if (gameReady) {
-				$("#sword-slash").prop("currentTime", 0);
-				$("#sword-slash")[0].play();
-				attack();
-				if (hero.hp <= 0) {
-					heroDeath();
-				} else if (defender.hp <= 0) {
-					defenderDeath();
-				}
-			}
-		});
-
-		// full reset when game is either won or lost
-		$("#replay-btn").on("click", function() {
-			resetBoard();
-		});
-
-		// partial reset that allows selecting next opponent
-		$("#next-round-btn").on("click", function() {
-			nextRound();
-		});
-
-		// :)
-		$("#scoreboard").hover(function() {
-			$("#wins, #losses").hide();
-			$("#sloth").show();
-		}, function() {
-			$("#wins, #losses").show();
-			$("#sloth").hide();
-		});
-	}
-	// end game function
-
-	// initiate game
-	game();
+  // initiate game
+  game();
 });
